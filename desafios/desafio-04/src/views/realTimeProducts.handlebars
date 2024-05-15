@@ -1,0 +1,24 @@
+<h2>Productos!</h2>
+<p id="products">
+{{#if products.length}}
+    {{#each products}}
+        <ul>
+            <li>{{id}}</li>
+            <li>{{title}}</li>
+            <li>{{description}}</li>
+            <li>{{code}}</li>
+            <li>{{price}}</li>
+            <li>{{status}}</li>
+            <li>{{stock}}</li>
+            <li>{{category}}</li>
+            <li>{{thumbnails}}</li>
+        </ul>
+    {{/each}}
+{{else}}
+
+    <p>There are no registered products</p>
+{{/if}}
+</p>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/index.js"></script>
