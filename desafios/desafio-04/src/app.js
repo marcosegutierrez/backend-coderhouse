@@ -32,26 +32,27 @@ const socketServer = new Server(httpServer);
 const productsManager = new ProductsManager(`${__dirname}/data/products.json`);
 
 socketServer.on('connection', (socket) => {
-    console.log(`usuario conectado: ${socket.id}`);
+    console.log(`cliente conectado: ${socket.id}`);
 
-    socket.on('disconnect', () => {
-        console.log(`usuario desconectado`);
+    socket.on('disconnect', () => console.log(`cliente desconectado`));
+  
+    app.post('/realtimeproducts', productValidator, async (req, res) => {
+        const product = req.body;
+        const newProduct = await productsManager.addProduct(product);
+        //const products = await productsManager.getProducts();
+        socketServer.emit('newProduct', newProduct);
+        res.send('Producto enviado al socket del cliente');
     })
 
-    app.get('/realtimeproducts', async (req, res, next) => {
+    app.delete('/realtimeproducts/:pid', async (req, res) => {
         try {
+            const {pid} = req.params;
+            await productsManager.deleteProduct(parseInt(pid));
             const products = await productsManager.getProducts();
-            res.render('realTimeProducts');
+            socketServer.emit('deleteProduct', products);
+            res.send('Productos enviados al socket del cliente');
         } catch (error) {
             next(error);
         }
-    })
-
-    app.post('/realtimeproducts', async (req, res) => {
-        const product = req.body;
-        const newProduct = await productsManager.addProduct(product);
-        const products = await productsManager.getProducts();
-        socketServer.emit('productos', products);
-        res.send('Productos enviados al socket del cliente');
     })
 });

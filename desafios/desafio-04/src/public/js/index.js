@@ -1,11 +1,40 @@
 const socketClient = io();
 
-const products = document.getElementById('products');
+const productsDiv = document.getElementById('products');
+const hbsProducts = document.getElementById('hbsProducts');
 
-socketClient.on('productos', (arrayProducts)=>{
-    let infoProducts = '';
-    arrayProducts.map((prod)=>{
-        infoProducts += `${prod.title} - $${prod.price} </br>`
-    })
-    products.innerHTML = infoProducts
+
+socketClient.on('newProduct', (newProduct)=>{
+    let newProducts = `<ul>
+            <li>${newProduct.id}</li>
+            <li>${newProduct.title}</li>
+            <li>${newProduct.description}</li>
+            <li>${newProduct.code}</li>
+            <li>${newProduct.price}</li>
+            <li>${newProduct.status}</li>
+            <li>${newProduct.stock}</li>
+            <li>${newProduct.category}</li>
+            <li>${newProduct.thumbnails}</li>
+        </ul>`;
+    products.innerHTML += newProducts;
+})
+
+socketClient.on('deleteProduct', (products) => {
+    let newProducts = '';
+    products.forEach(newProduct => {
+        newProducts += `<ul>
+            <li>${newProduct.id}</li>
+            <li>${newProduct.title}</li>
+            <li>${newProduct.description}</li>
+            <li>${newProduct.code}</li>
+            <li>${newProduct.price}</li>
+            <li>${newProduct.status}</li>
+            <li>${newProduct.stock}</li>
+            <li>${newProduct.category}</li>
+            <li>${newProduct.thumbnails}</li>
+        </ul>`
+    });
+
+    productsDiv.innerHTML = newProducts;
+    hbsProducts.innerHTML = "";
 })

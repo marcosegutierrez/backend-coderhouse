@@ -10,7 +10,9 @@
             <li>{{status}}</li>
             <li>{{stock}}</li>
             <li>{{category}}</li>
+            {{#if thumbnails.length}}
             <li>{{thumbnails}}</li>
+            {{/if}}
         </ul>
     {{/each}}
 {{else}}

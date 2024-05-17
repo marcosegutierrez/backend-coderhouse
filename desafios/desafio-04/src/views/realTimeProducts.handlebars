@@ -1,7 +1,8 @@
-<h2>Productos!</h2>
-<p id="products">
-{{#if products.length}}
-    {{#each products}}
+<h2>Productos en tiempo real!</h2>
+
+<div id="hbsProducts">
+    {{#if products.length}}
+        {{#each products}}
         <ul>
             <li>{{id}}</li>
             <li>{{title}}</li>
@@ -11,14 +12,17 @@
             <li>{{status}}</li>
             <li>{{stock}}</li>
             <li>{{category}}</li>
-            <li>{{thumbnails}}</li>
+            {{#if thumbnails.length}}
+                <li>{{thumbnails}}</li>
+            {{/if}}
         </ul>
-    {{/each}}
-{{else}}
+        {{/each}}
+    {{else}}
+        <p>There are no registered products</p>
+    {{/if}}
+</div>
 
-    <p>There are no registered products</p>
-{{/if}}
-</p>
+<p id="products"></p>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/index.js"></script>

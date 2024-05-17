@@ -5,7 +5,7 @@ import { __dirname } from "../utils.js";
 const router = Router();
 const productsManager = new ProductsManager(`${__dirname}/data/products.json`);
 
-router.get('/home', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         const {limit} = req.query;
         let products = await productsManager.getProducts();
@@ -18,13 +18,13 @@ router.get('/home', async (req, res, next) => {
     }
 })
 
-// router.get('/realtimeproducts', async (req, res, next) => {
-//     try {
-//         const products = await productsManager.getProducts();
-//         res.render('realTimeProducts', {products});
-//     } catch (error) {
-//         next(error);
-//     }
-// })
+router.get('/realtimeproducts', async (req, res, next) => {
+    try {
+        const products = await productsManager.getProducts();
+        res.render('realTimeProducts', {products});
+    } catch (error) {
+        next(error);
+    }
+})
 
 export default router;
