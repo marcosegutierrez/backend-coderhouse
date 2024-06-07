@@ -1,7 +1,7 @@
 import { __dirname } from "../utils.js";
-import ProductsManager from "../manager/products.manager.js";
+import ProductsManagerFS from "../daos/filesystem/managers/products.manager.js";
 
-const productsManager = new ProductsManager(`${__dirname}/data/products.json`);
+const productsManager = new ProductsManagerFS(`${__dirname}/daos/filesystem/data/products.json`);
 
 export const productValidator = async (req, res, next) => {
     const { title, description, code, price, stock, category } = req.body;
