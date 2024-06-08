@@ -51,16 +51,16 @@ export default class ProductsManagerFS {
 
     async getProductById(id) {
         let products = await this.getProducts();
-        let productFound = products.find(p => p.id === id);
+        let productFound = products.find(p => p.id === parseInt(id));
         if (productFound) return productFound;
         else return null;
     }
 
     async updateProduct(id, obj) {
         let products = await this.getProducts();
-        let product = await this.getProductById(id);
+        let product = await this.getProductById(parseInt(id));
         if (product) {
-            let newProducts = products.filter((product) => product.id !== id);
+            let newProducts = products.filter((product) => product.id !== parseInt(id));
             const newProduct = {
                 ...product,
                 ...obj,
@@ -78,7 +78,7 @@ export default class ProductsManagerFS {
             let product = await this.getProductById(id);
             if (product) {
                 let products = await this.getProducts();
-                let newProducts = products.filter((product) => product.id != id);
+                let newProducts = products.filter((product) => product.id != parseInt(id));
                 await fs.promises.writeFile(this.path, JSON.stringify(newProducts));
                 return product;
             } else return null;

@@ -1,89 +1,46 @@
-import fs from 'fs';
+import { ProductModel } from "./schema.js";
 
-export default class ProductsManager {
-    constructor(path) {
-        this.path = path;
-        this.#productManagerGenerator();
-    }
-
-    async #productManagerGenerator() {
-        if (!fs.existsSync(this.path)) {
-            let products = [];
-            fs.promises.writeFile(this.path, JSON.stringify(products));
-        }
-    }
-
-    async #idGenerator() {
-        let products = await this.getProducts();
-        let max = 0;
-        if (products) {
-            products.forEach((p) => {
-                if (p.id > max) max = p.id;
-            });
-        }
-        return max;
-    }
+export default class ProductsManagerMongo {
 
     async addProduct(obj) {
-        const { title, description, code, price, status, stock, category, thumbnails } = obj;
-        const product = {
-            id: await this.#idGenerator() + 1,
-            title,
-            description,
-            code,
-            price,
-            status: true,
-            stock,
-            category,
-            thumbnails: thumbnails || []
-        };
-        let products = await this.getProducts();
-        products.push(product);
-        await fs.promises.writeFile(this.path, JSON.stringify(products));
+        const product = await ProductModel.create(obj);
         return product;
     }
 
     async getProducts() {
-        let products = await fs.promises.readFile(this.path, 'utf-8');
-        if (products) return JSON.parse(products);
-        else return [];
+        try {
+            const products = await ProductModel.find({});
+            if (products) return products;
+            else return [];
+        } catch (error) {
+            throw new Error(error)
+        }
     }
 
     async getProductById(id) {
-        let products = await this.getProducts();
-        let productFound = products.find(p => p.id === id);
-        if (productFound) return productFound;
-        else return null;
+        try {
+            let product = await ProductModel.findById(id);
+            return product;
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 
     async updateProduct(id, obj) {
-        let products = await this.getProducts();
-        let product = await this.getProductById(id);
-        if (product) {
-            let newProducts = products.filter((product) => product.id !== id);
-            const newProduct = {
-                ...product,
-                ...obj,
-                id: product.id
-            };
-            newProducts.push(newProduct);
-            newProducts.sort((a, b) => a.id - b.id);
-            await fs.promises.writeFile(this.path, JSON.stringify(newProducts));
-            return newProduct;
-        } else return null;
+       try {
+            const product = await ProductModel.findByIdAndUpdate(id, obj, {new: true});
+            return product;
+       } catch (error) {
+            throw new Error(error);
+       }
     }
 
     async deleteProduct(id) {
         try {
-            let product = await this.getProductById(id);
-            if (product) {
-                let products = await this.getProducts();
-                let newProducts = products.filter((product) => product.id != id);
-                await fs.promises.writeFile(this.path, JSON.stringify(newProducts));
-                return product;
-            } else return null;
+            const product = await ProductModel.findByIdAndDelete(id);
+            return product;
         } catch (error) {
-            console.log(error);
+            throw new Error(error)
         }
     }
 }
