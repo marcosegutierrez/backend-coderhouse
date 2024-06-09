@@ -1,6 +1,9 @@
 import { __dirname } from '../utils.js';
 import CartsManagerFS from '../daos/filesystem/managers/carts.manager.js';
-const cartsDao = new CartsManagerFS(`${__dirname}/daos/filesystem/data/carts.json`);
+// const cartsDao = new CartsManagerFS(`${__dirname}/daos/filesystem/data/carts.json`);
+
+import CartsManagerMongo from '../daos/mongodb/carts.manager.js';
+const cartsDao = new CartsManagerMongo();
 
 export const addCart = async () => {
     try {

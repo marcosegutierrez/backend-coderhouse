@@ -21,7 +21,7 @@ export const getCarts = async (req, res, next) => {
 export const getCartById = async (req, res, next) => {
     try {
         const {cid} = req.params;
-        const cart = await services.getCartById(parseInt(cid));
+        const cart = await services.getCartById(cid);
         if(cart) return res.status(200).json(cart.products);
         return res.status(404).json({msg: "Cart not found"});
     } catch (error) {
@@ -32,7 +32,7 @@ export const getCartById = async (req, res, next) => {
 export const addProductToCart = async (req, res, next) => {
     try {
         const {cid, pid} = req.params;
-        const cart = await services.addProductToCart(parseInt(pid), parseInt(cid));
+        const cart = await services.addProductToCart(pid, cid);
         if(cart) return res.status(200).json(cart);
         return res.status(404).json({msg: 'Product or cart not exist'});
     } catch (error) {

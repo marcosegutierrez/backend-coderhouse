@@ -58,7 +58,7 @@ export default class CartsManagerFS {
         if(!cart) return null;
         const productExist = await productsManager.getProductById(idProduct);
         if(productExist){
-            const productExistInCart = cart.products.find(p => p.id === idProduct)
+            const productExistInCart = cart.products.find(p => p.id === parseInt(idProduct));
             if (productExistInCart) {
                 productExistInCart.quantity++;
             } else {
@@ -70,7 +70,7 @@ export default class CartsManagerFS {
             }
             const carts = await this.getCarts()
             const newCarts = carts.map(c => {
-                if(c.id === idCart) {
+                if(c.id === parseInt(idCart)) {
                     return cart;
                 }
                 return c
