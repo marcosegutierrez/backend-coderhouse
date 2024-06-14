@@ -2,8 +2,21 @@ import * as services from '../services/products.services.js';
 
 export const getProducts = async (req, res, next) => {
     try {
-        const products = await services.getProducts(req);
-        res.json(products);
+        const { page, limit, query, sort } = req.query;
+        const products = await services.getProducts(page, limit, query, sort);
+        const next = products.hasNextPage ? `http://localhost:8080/api/products?page=${products.nextPage}` : null;
+        const prev = products.hasPrevPage ? `http://localhost:8080/api/products?page=${products.prevPage}` : null;
+        res.json({
+            payload: products.docs,
+            info: {
+              count: products.totalDocs,
+              totalPages: products.totalPages,
+              nextLink: next,
+              prevLink: prev,
+              hasPrevPage: products.hasPrevPage,
+              hasNextPage: products.hasNextPage
+            }
+          });
     } catch (error) {
         next(error);
     }

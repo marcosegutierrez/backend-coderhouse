@@ -36,3 +36,35 @@ export const addProductToCart = async (idProduct, idCart) => {
         throw new Error(error);
     }
 }
+
+export const deleteProductToCart = async (idProduct, idCart) => {
+    try {
+        return await cartsDao.deleteProductToCart(idProduct, idCart);
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export const updateCart = async (id, productsUpdate) => {
+    try {
+        return await cartsDao.updateCart(id, productsUpdate);
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export const updateProductToCart = async (idProduct, idCart, quantity) => {
+    try {
+        return await cartsDao.updateProductToCart(idProduct, idCart, quantity);
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export const deleteCart = async (idCart) => {
+    try {
+        return await cartsDao.deleteCart(idCart);
+    } catch (error) {
+        throw new Error(error);
+    }
+}

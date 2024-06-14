@@ -17,7 +17,7 @@ export default class CartsManagerMongo {
     }
 
     async getCartById(id) {
-        const cartFound = await CartModel.findById(id);
+        const cartFound = await CartModel.findById(id).populate('products.product');
         if (cartFound) return cartFound;
         else return null;
     }
@@ -32,5 +32,52 @@ export default class CartsManagerMongo {
         await cart.save();  
         return cart;
     }
+
+    async deleteProductToCart(idProduct, idCart) {
+        const cart = await CartModel.findById(idCart);
+        if (!cart) return null;
+        const existProdIndex = cart.products.findIndex(p => p.product.toString() === idProduct);
+        if(existProdIndex === -1) {
+          return null;
+        } else cart.products.pop({ product: idProduct});
+        await cart.save();  
+        return cart;
+    }
+
+    async updateCart(id, productsUpdate) {
+        const cartFound = await CartModel.findById(id);
+        if (!cartFound) return null;
+        productsUpdate.forEach(idProduct => {
+            const existProdIndex = cartFound.products.findIndex(p => p.product.toString() === idProduct);
+            if(existProdIndex !== -1) {
+                cartFound.products[existProdIndex].quantity++;
+            } else cartFound.products.push({ product: idProduct});
+        });
+        cartFound.save();
+        return cartFound;
+    }
+
+    async updateProductToCart(idProduct, idCart, quantity) {
+        const cart = await CartModel.findById(idCart);
+        if (!cart) return null;
+        const existProdIndex = cart.products.findIndex(p => p.product.toString() === idProduct);
+        if(existProdIndex === -1) {
+          return null;
+        } else {
+            return await CartModel.findOneAndUpdate(
+                { _id: idCart, 'products.product': idProduct },
+                { $set: { 'products.$.quantity': quantity } },
+                { new: true }
+            );
+        }        
+    }
     
+    async deleteCart(idCart) {
+        const cartFound = await CartModel.findById(idCart);
+        if(!cartFound) return null;
+        cartFound.products = [];
+        cartFound.save();
+        return cartFound;
+    }
+
 }

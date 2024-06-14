@@ -7,9 +7,12 @@ export default class ProductsManagerMongo {
         return product;
     }
 
-    async getProducts() {
+    async getProducts(page = 1, limit = 10, query, sort) {
         try {
-            const products = await ProductModel.find({});
+            const filter = query ? { 'query': query } : {};
+            let sortOrder = {};
+            if(sort) sortOrder.price = sort === 'asc' ? 1 : sort === 'desc' ? -1 : null;
+            const products = await ProductModel.paginate(filter, { page, limit, sort: sortOrder }); //sort: { price: 1 } 
             if (products) return products;
             else return [];
         } catch (error) {

@@ -5,13 +5,10 @@ import ProductsManagerFS from "../daos/filesystem/managers/products.manager.js";
 import ProductsManagerMongo from "../daos/mongodb/products.manager.js";
 const productsDao = new ProductsManagerMongo();
 
-export const getProducts = async (req) => {
+export const getProducts = async (page, limit, query, sort) => {
     try {
-        const {limit} = req.query;
-        const products = await productsDao.getProducts();
-        if (limit) {
-            return products.slice(0,limit);
-        } else return products;
+        const products = await productsDao.getProducts(page, limit, query, sort);
+        return products;
     } catch (error) {
         throw new Error(error);
     }
