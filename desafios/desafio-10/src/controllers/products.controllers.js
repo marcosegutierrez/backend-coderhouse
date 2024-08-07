@@ -1,4 +1,7 @@
 import * as services from '../services/products.services.js';
+import { HttpResponse } from '../utils/http.response.js';
+
+const httpResponse = new HttpResponse();
 
 export const getProducts = async (req, res, next) => {
     try {
@@ -6,7 +9,8 @@ export const getProducts = async (req, res, next) => {
         if (req.session.email) {
             const docs = products.docs
             res.render('home2', {docs: docs, req: req})
-        } else res.json(products);
+        } else return httpResponse.Ok(res, products);
+        
     } catch (error) {
         next(error);
     }
@@ -16,8 +20,8 @@ export const getProductById = async (req, res, next) => {
     try {
         const {pid} = req.params;
         const product = await services.getProductById(pid);
-        if (product) return res.status(200).json(product);
-        return res.status(404).json({msg: 'Product not found'});
+        if (product) return httpResponse.Ok(res, product);
+        return httpResponse.NotFound(res, {msg: 'Product not found'});
     } catch (error) {
         next(error);
     }
@@ -26,7 +30,7 @@ export const getProductById = async (req, res, next) => {
 export const addProduct = async (req, res, next) => {
     try {
         const newProduct = await services.addProduct(req.body);
-        res.status(200).json(newProduct);
+        return httpResponse.Ok(res, newProduct);
     } catch (error) {
         next(error);
     }
@@ -37,8 +41,8 @@ export const updateProduct = async (req, res, next) => {
         const product = req.body;
         const {pid} = req.params;
         const updateProduct = await services.updateProduct(pid, product);
-        if (updateProduct) return res.status(200).json(updateProduct);
-        res.status(404).json({msg: 'Product not found'});
+        if (updateProduct) return httpResponse.Ok(res, updateProduct);
+        return httpResponse.NotFound(res, {msg: 'Product not found'});
     } catch (error) {
         next(error);
     }
@@ -48,8 +52,8 @@ export const deleteProduct = async (req, res, next) => {
     try {
         const {pid} = req.params;
         const deleteProduct = await services.deleteProduct(pid);
-        if (deleteProduct) return res.status(200).json({msg: 'Product successfully removed'});
-        res.status(404).json({msg: 'Product not found'});
+        if (deleteProduct) return httpResponse.Ok(res, {msg: 'Product successfully removed'});
+        return httpResponse.NotFound(res, {msg: 'Product not found'});
     } catch (error) {
         next(error);
     }
@@ -57,8 +61,8 @@ export const deleteProduct = async (req, res, next) => {
 
 export const mockingProducts = async (req, res, next) => {
     try {
-        const data = await services.mockingProducts()
-        res.json(data);
+        const data = await services.mockingProducts();
+        return httpResponse.Ok(res, data);
     } catch (error) {
         next(error);
     }

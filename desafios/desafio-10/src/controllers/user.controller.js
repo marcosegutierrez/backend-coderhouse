@@ -1,4 +1,7 @@
 import * as services from '../services/user.services.js';
+import { HttpResponse } from '../utils/http.response.js';
+
+const httpResponse = new HttpResponse();
 
 export const logout = (req, res) => {
   req.session.destroy();
@@ -19,7 +22,7 @@ export const loginResponse = async (req, res, next) => {
     let id = null;
     if (req.session.passport && req.session.passport.user) id = req.session.passport.user;
     const user = await services.getUserById(id);
-    if (!user) res.status(401).json({ msg: 'Error de autenticacion' });
+    if (!user) return httpResponse.Unauthorized(res, { msg: 'Error de autenticacion' });
     else {
       sessionUser(req, user);
       res.redirect('/api/products');
@@ -34,10 +37,10 @@ export const loginResponseApiClient = async (req, res, next) => {
     let id = null;
     if (req.session.passport && req.session.passport.user) id = req.session.passport.user;
     const user = await services.getUserById(id);
-    if (!user) res.status(401).json({ msg: 'Error de autenticacion' });
+    if (!user) return httpResponse.Unauthorized(res, { msg: 'Error de autenticacion' });
     else {
       sessionUser(req, user);
-      res.status(200).json({ msg: "Autenticado correctamente" });
+      return httpResponse.Ok(res, { msg: "Autenticado correctamente" });
     }
   } catch (error) {
     next(error);
