@@ -7,7 +7,7 @@ router.route('/')
     .post(controllers.addCart)
     .get(controllers.getCarts)
 
-router.post('/:cid/product/:pid', controllers.addProductToCart);
+router.post('/product/:pid', controllers.addProductToCart);
 
 router.route('/:cid')
     .get(controllers.getCartById)

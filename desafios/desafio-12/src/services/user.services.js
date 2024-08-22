@@ -72,3 +72,18 @@ export const updatePass = async (pass, user) => {
         throw new Error(error);
     }
 }
+
+export const changeRole = async (id) => {
+    try {
+        const user = await userDao.getUserById(id);
+        let newRole = user.role;
+        if (user.role === "user") {
+            newRole = "premium";
+        } else if (user.role === "premium") {
+            newRole = "user";
+        }
+        return await userDao.update(id, {role: newRole})
+    } catch (error) {
+        throw new Error(error);
+    }
+}

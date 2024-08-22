@@ -7,7 +7,8 @@ import {
     githubResponse,
     loginResponseApiClient,
     generateResetPass,
-    updatePass
+    updatePass,
+    changeRole
 } from "../controllers/user.controller.js";
 import passport from "passport";
 
@@ -23,5 +24,7 @@ router.get('/profile', passport.authenticate('github', { scope: [ 'user:email' ]
 
 router.post('/resetpass', generateResetPass);
 router.post('/updatepass', updatePass);
+
+router.get('/premium/:uid', changeRole);
 
 export default router;

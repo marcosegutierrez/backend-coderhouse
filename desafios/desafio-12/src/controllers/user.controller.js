@@ -1,3 +1,4 @@
+import e from 'express';
 import { sendMail } from '../services/mailing.service.js';
 import * as services from '../services/user.services.js';
 import { HttpResponse } from '../utils/http.response.js';
@@ -83,6 +84,17 @@ export const updatePass = async (req, res, next) => {
     if(!updPass) return httpResponse.NotFound(res, {msg: 'Cannot be the same'});
     res.clearCookie('tokenPass');
     logout(req,res);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const changeRole = async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const user = await services.changeRole(uid);
+    if (user) return httpResponse.Ok(res, user);
+    return httpResponse.NotFound(res, {msg: 'User not found'});
   } catch (error) {
     next(error);
   }

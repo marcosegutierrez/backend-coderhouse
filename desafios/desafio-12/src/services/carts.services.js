@@ -10,12 +10,13 @@ export const addCart = async () => {
     }
 }
 
-export const addProductToCart = async (cid, pid) => {
+export const addProductToCart = async (cid, pid, email, role) => {
     try {
         const existCart = await cartDao.getCartById(cid);
         if (!existCart) return null;
         const existProd = await prodDao.getProductById(pid);
         if (!existProd) return null;
+        if (existProd.owner === email && role === "premium") return null;
         return await cartDao.addProductToCart(pid, cid);
     } catch (error) {
         throw new Error(error);

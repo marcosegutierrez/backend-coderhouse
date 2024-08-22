@@ -14,9 +14,9 @@ export const addCart = async (req, res, next) => {
 
 export const addProductToCart = async (req, res, next) => {
     try {
-        const cid = req.session.cartId;
+        const { cartId, email, role } = req.session;
         const {pid} = req.params;
-        const cart = await services.addProductToCart(cid, pid);
+        const cart = await services.addProductToCart(cartId, pid, email, role);
         if(cart) return httpResponse.Ok(res, cart);
         return httpResponse.NotFound(res, {msg: 'Product or cart not exist'});
     } catch (error) {
