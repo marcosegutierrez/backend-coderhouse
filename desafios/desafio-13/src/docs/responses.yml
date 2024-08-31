@@ -1,0 +1,87 @@
+components:
+  schema:
+    Products:
+      Product:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id del producto.
+          title:
+            type: string
+            description: Nombre del producto.
+          description:
+            type: string
+            description: Descripcion del producto.
+          code:
+            type: string
+            description: Codigo del producto.
+          price:
+            type: integer
+            description: Precio del producto.
+          status:
+            type: boolean
+            description: Estado del producto.
+          stock: 
+            type: integer
+            description: Cantidad disponible del producto.
+          category:
+            type: string
+            description: Categoria del producto.
+          thumbnails:
+            type: array
+            description: Fotos del producto.
+          owner:
+            type: string
+            description: Creador del producto.
+        example:
+          id: 66c3f262a046cd4c5a4b5e51
+          title: Yerba mate Amanda
+          description: Yerba Amanda 500gr
+          code: 999zzz
+          price: 2000
+          status: true
+          stock: 100
+          category: Desayuno y Merienda
+          thumbnails: ["/Img1.png","/Img2.png"]
+          owner: admin 
+      GetAllProducts:
+        type: array
+        items:
+          properties:
+            id:
+              type: string
+              description: Id del producto.
+            title:
+              type: string
+              description: Nombre del producto.
+            description:
+              type: string
+              description: Descripcion del producto.
+            code:
+              type: string
+              description: Codigo del producto.
+            price:
+              type: integer
+              description: Precio del producto.
+            status:
+              type: boolean
+              description: Estado del producto.
+            stock: 
+              type: integer
+              description: Cantidad disponible del producto.
+            category:
+              type: string
+              description: Categoria del producto.
+            thumbnails:
+              type: array
+              description: Fotos del producto.
+            owner:
+              type: string
+              description: Creador del producto.
+      InternalServerError:
+        type: object
+        properties:
+          msg:
+            type: string
+            description: Error del servidor  

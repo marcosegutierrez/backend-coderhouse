@@ -1,0 +1,42 @@
+paths:
+  /api/products:
+    get:
+      tags:
+      - Products
+      summary: Lista de productos
+      responses:
+        200: 
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/GetAllProducts'      
+        500: 
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/InternalServerError'        
+    post:
+      tags:
+      - Products
+      summary: Registro de producto.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/Products'
+        required: true
+      responses:
+        200:
+          description: Se registró el producto correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/Product'
+        500: 
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/InternalServerError'
