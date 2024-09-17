@@ -39,9 +39,11 @@ export default class CartsManagerMongo {
         const cart = await CartModel.findById(idCart);
         if (!cart) return null;
         const existProdIndex = cart.products.findIndex(p => p.product.toString() === idProduct);
+        console.log('cart:', cart)
         if(existProdIndex === -1) {
           return null;
-        } else cart.products.pop({ product: idProduct});
+        } else cart.products = cart.products.filter(p => p.product.toString() !== idProduct);
+        console.log('cartproducts:', cart.products)
         await cart.save();  
         return cart;
     }

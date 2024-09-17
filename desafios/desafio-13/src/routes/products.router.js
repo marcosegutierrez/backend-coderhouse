@@ -10,6 +10,7 @@ router
     .get('/', controllers.getProducts)
     .post('/', [checkRole, productValidator], controllers.addProduct);
 
+// Genera productos a traves de la librería Faker
 router.get('/mockingproducts', controllers.mockingProducts);
 
 router.route('/:pid')

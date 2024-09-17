@@ -16,6 +16,9 @@ import './passport/local-strategy.js';
 import './passport/github-strategy.js';
 import config from './config.js';
 import { logger } from './utils/logger.js';
+import swaggerUI from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import { info } from './docs/info.js';
 
 import MessageManager from './persistence/daos/filesystem/manager/messages.manager.js';
 // const messageManager = new MessageManager(`${__dirname}/persistence/daos/filesystem/data/messages.json`);
@@ -38,6 +41,8 @@ const storeConfig = {
 
 const app = express();
 
+const specs = swaggerJSDoc(info);
+
 const hbs = handlebars.create({
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
@@ -46,6 +51,7 @@ const hbs = handlebars.create({
 });
 
 app
+    .use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
     .use(morgan('dev'))
     .use(express.json())
     .use(express.urlencoded({extended: true}))

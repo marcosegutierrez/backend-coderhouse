@@ -5,7 +5,7 @@ const httpResponse = new HttpResponse();
 
 export const addCart = async (req, res, next) => {
     try {
-        const cart = services.addCart();
+        const cart = await services.addCart();
         if (cart) return httpResponse.Ok(res,cart);
     } catch (error) {
         next(error);
