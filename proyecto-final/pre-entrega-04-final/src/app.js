@@ -52,7 +52,7 @@ const hbs = handlebars.create({
 app
     .use('/docs', swaggerUI.serve, swaggerUI.setup(specs, { customCssUrl: CSS_URL }))
     .use(cors({
-        origin: 'https://backend-coderhouse.vercel.app',
+        origin: 'https://backend-coderhouse-delta.vercel.app',
         credentials: true
       }))
     .use(morgan('dev'))

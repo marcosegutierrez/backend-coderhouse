@@ -13,7 +13,7 @@ export const info = {
     },
     servers: [
       {
-        url: "https://backend-coderhouse.vercel.app/",
+        url: "https://backend-coderhouse-delta.vercel.app/",
         description: "My API Documentation (deploy)",
       },
       {
