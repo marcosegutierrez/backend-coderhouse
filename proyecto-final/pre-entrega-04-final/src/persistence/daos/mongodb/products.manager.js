@@ -33,9 +33,8 @@ export default class ProductsManagerMongo {
         }
     }
 
-    async updateProduct(id, obj, role, email) {
+    async updateProduct(id, obj, role, email = null) {
        try {
-            if (id.length != 24) return null
             const productToUpdate = await ProductModel.findById(id);
             let product = null;
             if (role === "premium" && productToUpdate.owner === email) {

@@ -70,10 +70,48 @@ components:
           - password
         properties:
           email:
-            type: integer
+            type: string
             description: Email del usuario
             example: juan@mail.com
           password:
-            type: integer
+            type: string
             descripcion: Contraseña del usuario
             example: "1234"
+      RegisterUser:
+        type: object
+        required:
+          - first_name
+          - lasst_name
+          - email
+          - age
+          - password
+        properties:
+          first_name:
+            type: string
+            description: Nombre del usuario
+            example: Juan
+          last_name:
+            type: string
+            description: Apellido del usuario
+            example: Perez
+          email:
+            type: string
+            description: Email del usuario
+            example: juan.perez@mail.com
+          age:
+            type: integer
+            description: Edad del usuario
+            example: 30
+          password:
+            type: string
+            descripcion: Contraseña del usuario
+            example: "ac815w"
+      UserNewPassword:
+        type: object
+        required:
+          - password
+        properties:
+          password:
+            type: string
+            descripcion: Contraseña del usuario
+            example: "ac815w"

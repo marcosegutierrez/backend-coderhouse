@@ -5,6 +5,7 @@ import config from '../config.js';
 import { sendMail } from './mailing.service.js';
 import jwt from 'jsonwebtoken';
 import UsersDTO from '../persistence/dtos/users.dto.js';
+import UserDTO from '../persistence/dtos/user.dto.js';
 import { logger } from '../utils/logger.js';
 
 const userDao = new UserManager(UserModel);
@@ -85,7 +86,8 @@ export const changeRole = async (id) => {
         } else if (user.role === "premium") {
             newRole = "user";
         }
-        return await userDao.update(id, {role: newRole})
+        const newUser = new UserDTO(await userDao.update(id, {role: newRole}))
+        return newUser;
     } catch (error) {
         throw new Error(error);
     }

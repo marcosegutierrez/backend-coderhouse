@@ -2,7 +2,7 @@ import ProductsManagerFS from "../persistence/daos/filesystem/manager/products.m
 import { __dirname } from "../utils.js";
 import { HttpResponse } from "../utils/http.response.js";
 
-const productsManager = new ProductsManagerFS(`${__dirname}/persistence/daos/filesystem/data/products.json`);
+// const productsManager = new ProductsManagerFS(`${__dirname}/persistence/daos/filesystem/data/products.json`);
 const httpResponse = new HttpResponse();
 
 export const viewLogin = async (req, res, next) => {
@@ -31,14 +31,14 @@ export const viewProfile = (req, res, next) => {
     }
 }
 
-export const realTimeProducts = async (req, res, next) => {
-    try {
-        const products = await productsManager.getProducts();
-        res.render('realTimeProducts', { products });
-    } catch (error) {
-        next(error);
-    }
-}
+// export const realTimeProducts = async (req, res, next) => {
+//     try {
+//         const products = await productsManager.getProducts();
+//         res.render('realTimeProducts', { products });
+//     } catch (error) {
+//         next(error);
+//     }
+// }
 
 export const viewChat = (req, res, next) => {
     try {

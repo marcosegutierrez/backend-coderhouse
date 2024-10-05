@@ -11,10 +11,10 @@ const router = Router();
 
 router.use('/api/products', productsRouter);
 router.use('/api/carts', cartsRouter);
-router.use('/', viewsRouter);
+router.use('/', viewsRouter); // rutas para las vistas
 router.use('/users', usersRouter);
 router.use('/api/sessions', sessionsRouter);
 router.use('/ticket', ticketRouter); // --> ticket/purchase
-router.use('/loggerTest', loggerRouter);
+router.use('/loggerTest', loggerRouter); // --> pruebas en logger por consola
 
 export default router;

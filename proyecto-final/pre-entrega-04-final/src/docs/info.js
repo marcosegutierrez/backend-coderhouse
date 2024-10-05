@@ -1,3 +1,8 @@
+import path from 'path';
+
+// Obtiene la ruta absoluta del directorio raíz del proyecto
+const __dirname = path.resolve();
+
 export const info = {
   definition: {
     openapi: "3.0.0",
@@ -8,9 +13,14 @@ export const info = {
     },
     servers: [
       {
-        url: "http://localhost:8080",
-      }
+        url: "https://backend-coderhouse.vercel.app/",
+        description: "My API Documentation (deploy)",
+      },
+      {
+        url: "http://localhost:3000",
+        description: "My API Documentation (local)",
+      },
     ],
   },
-  apis: ["./src/docs/*.yml"],
+  apis: [path.join(__dirname, "src/docs/**/*.yml")],
 };

@@ -21,10 +21,11 @@ export default class TicketService{
         for (const prodInCart of cart.products) {
           const idProd = prodInCart.product;
           const prodDB = await productServices.getProductById(idProd);
-
           if (prodInCart.quantity <= prodDB.stock) {
             const amount = prodInCart.quantity * prodDB.price;
             amountAcc += amount;
+            const newStock = prodDB.stock - prodInCart.quantity
+            const product = await productServices.updateProduct(idProd, {"stock": newStock}, "admin")
           } else {
             this.prodsOutTicket.push(idProd);
           }

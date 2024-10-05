@@ -1,7 +1,7 @@
 import express from 'express';
 import router from './routes/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
-import { __dirname } from './utils.js'
+import { __dirname, readDir } from './utils.js'
 import handlebars from 'express-handlebars';
 import { initMongoDB } from './persistence/daos/mongodb/connection.js';
 import cookieParser from 'cookie-parser';
@@ -18,13 +18,13 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import { info } from './docs/info.js';
 import { socketServerOn } from './utils/socket.server.js';
 import socketRouter from './utils/socket.server.js';
-
-import MessageManager from './persistence/daos/filesystem/manager/messages.manager.js';
-// const messageManager = new MessageManager(`${__dirname}/persistence/daos/filesystem/data/messages.json`);
-import MessageManagerMongo from './persistence/daos/mongodb/messages.manager.js';
-const messageManager = new MessageManagerMongo();
+import cors from 'cors';
 
 logger.info(`Environment: ${process.argv[2]}`)
+
+readDir();
+
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.14/swagger-ui.min.css";
 
 const storeConfig = {
     store: MongoStore.create({
@@ -50,7 +50,11 @@ const hbs = handlebars.create({
 });
 
 app
-    .use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
+    .use('/docs', swaggerUI.serve, swaggerUI.setup(specs, { customCssUrl: CSS_URL }))
+    .use(cors({
+        origin: 'https://backend-coderhouse.vercel.app',
+        credentials: true
+      }))
     .use(morgan('dev'))
     .use(express.json())
     .use(express.urlencoded({extended: true}))
@@ -74,3 +78,5 @@ initMongoDB();
 const httpServer = app.listen(config.PORT, () => logger.info(`Server Ok on port ${config.PORT}`));
 
 socketServerOn(httpServer);
+
+export default app;

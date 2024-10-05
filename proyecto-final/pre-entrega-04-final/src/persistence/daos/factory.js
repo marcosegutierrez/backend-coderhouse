@@ -11,10 +11,10 @@ let prodDao = null;
 let persistence = process.argv[2];
 
 switch (persistence) {
-    case 'fs':
+    case 'fs': // persistence filesystem no funcional para deploy web
         logger.debug("Persistence: ", persistence);
-        prodDao = new ProductsManagerFS(`${__dirname}/persistence/daos/filesystem/data/products.json`);
-        cartDao = new CartsManagerFS(`${__dirname}/persistence/daos/filesystem/data/carts.json`);
+        // prodDao = new ProductsManagerFS(`${__dirname}/persistence/daos/filesystem/data/products.json`);
+        // cartDao = new CartsManagerFS(`${__dirname}/persistence/daos/filesystem/data/carts.json`);
         break;
     case 'mongo':
         logger.debug("Persistence: ", persistence);

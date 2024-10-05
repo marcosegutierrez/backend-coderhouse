@@ -29,7 +29,7 @@ export const addProduct = async (product, role, email) => {
     }
 }
 
-export const updateProduct = async (pid, product, role, email) => {
+export const updateProduct = async (pid, product, role, email = null) => {
     try {
         return await prodDao.updateProduct(pid, product, role, email);
     } catch (error) {

@@ -2,7 +2,8 @@ import fs from 'fs';
 import { __dirname } from '../../../../utils.js';
 import ProductsManagerFS from './products.manager.js';
 
-const productsManager = new ProductsManagerFS(`${__dirname}/persistence/daos/filesystem/data/products.json`);
+// const productsManager = new ProductsManagerFS(`${__dirname}/persistence/daos/filesystem/data/products.json`);
+const productsManager = null;
 
 export default class CartsManagerFS {
     

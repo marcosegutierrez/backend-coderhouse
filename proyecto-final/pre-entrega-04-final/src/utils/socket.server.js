@@ -2,8 +2,8 @@ import { Server } from 'socket.io';
 import { logger } from './logger.js';
 import MessageManagerMongo from '../persistence/daos/mongodb/messages.manager.js';
 import { Router } from 'express';
-import { deleteRealTimeProducts, postRealTimeProducts } from '../controllers/realtime.ctrl.js';
-import { productValidator } from '../middlewares/productValidator.js';
+// import { deleteRealTimeProducts, postRealTimeProducts } from '../controllers/realtime.ctrl.js';
+// import { productValidator } from '../middlewares/productValidator.js';
 
 const router = Router();
 
@@ -34,8 +34,8 @@ export const socketServerOn = (httpServer) => {
 
     });
 
-    router.post('/', productValidator, postRealTimeProducts(socketServer));
-    router.delete('/:pid', deleteRealTimeProducts(socketServer));
+    // router.post('/', productValidator, postRealTimeProducts(socketServer));
+    // router.delete('/:pid', deleteRealTimeProducts(socketServer));
 }
 
 export default router;

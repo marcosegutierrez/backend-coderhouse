@@ -49,6 +49,14 @@ export const loginResponseApiClient = async (req, res, next) => {
   }
 };
 
+export const registerResponseApiClient = (req, res, next) => {
+  try {
+    return httpResponse.Ok(res, { msg: "Usuario registrado correctamente" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const githubResponse = async (req, res, next) => {
   try {
     const user = await services.getUserById(req.user._id);

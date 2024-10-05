@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { 
-    realTimeProducts, 
+    // realTimeProducts, 
     viewChat, 
     viewLogin, 
     viewProfile, 
@@ -17,7 +17,7 @@ router.get("/register", viewRegister);
 
 router.get("/profile", viewProfile);
 
-router.get('/realtimeproducts', realTimeProducts)
+// router.get('/realtimeproducts', realTimeProducts)
 
 router.get('/chat', viewChat);
 
